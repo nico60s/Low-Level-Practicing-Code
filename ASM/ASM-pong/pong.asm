@@ -80,7 +80,7 @@ CODE SEGMENT PARA 'CODE'
 		RET
 	DRAW_BALL ENDP
 	
-	CLEAR_SCREEN
+	CLEAR_SCREEN PROC NEAR
 			MOV AH, 00h ;setea la configuración en video mode
 			MOV AL, 13h ;elegimos el modo gráfico 320*200
 			INT 10h     ;ejecutamos la configuración llamando interrupción 10
