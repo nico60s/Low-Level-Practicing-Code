@@ -1,0 +1,13 @@
+# Ignorar archivos .exe en la carpeta del proyecto
+*.exe
+
+# Ignorar archivos temporales de editor (si usas algún editor de texto como Visual Studio Code)
+.vscode/
+.idea/
+
+# Ignorar directorios de compilación
+bin/
+obj/
+
+# Ignorar otros archivos generados (por ejemplo, logs)
+*.log
