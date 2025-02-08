@@ -8,6 +8,8 @@ DATA SEGMENT PARA 'DATA'
 	BALL_X_POS DW 0Ah ;posición en eje x de la pelota
 	BALL_Y_POS DW 0Ah ;posición en el eje y de la pelota
 	BALL_SIZE DW 04h  ;el tamaño de la pelota de 4 pixeles
+	BALL_VELOCITY_X_POS DW 05h
+	BALL_VELOCITY_Y_POS DW 02h
 
 DATA ENDS
 
@@ -23,13 +25,7 @@ CODE SEGMENT PARA 'CODE'
 	POP AX                              ;libera el head element del STACK
 	POP AX
 	
-		MOV AH, 00h ;setea la configuración en video mode
-		MOV AL, 13h ;elegimos el modo gráfico 320*200
-		INT 10h     ;ejecutamos la configuración llamando interrupción 10
-		
-		MOV AH,0Bh  ;setea la cofiguracinó del color de fondo
-		MOV BH, 00h ;se elige el negro como color de fondo
-		INT 10h     ;ejecutamos la configuración
+		CALL CLEAR_SCREEN
 		
 		CHECK_TIME:
 		
@@ -39,7 +35,16 @@ CODE SEGMENT PARA 'CODE'
 			JE CHECK_TIME     			;Si es igual volver a CHECK_TIME de nuevo
 			;Si cambió el tiempo dibujar la pelota, mover, etc.
 			MOV TIME_AUX,DL             ;Actualizamos tiempo
-			INC BALL_X_POS
+			INC BALL_X_POS              ;se incrementa la posición en el eje X de la pelota
+			INC BALL_Y_POS				;se incrementa la posición en el eje y de la pelota
+			
+			MOV AX, BALL_VELOCITY_X_POS 
+			ADD BALL_X_POS, AX
+			MOV AX, BALL_VELOCITY_Y_POS
+			ADD BALL_Y_POS, AX
+			
+			CALL CLEAR_SCREEN
+			
 			CALL DRAW_BALL
 			
 			JMP CHECK_TIME				;Chequear cambio de tiempo de nuevo
@@ -74,6 +79,17 @@ CODE SEGMENT PARA 'CODE'
 
 		RET
 	DRAW_BALL ENDP
-
+	
+	CLEAR_SCREEN
+			MOV AH, 00h ;setea la configuración en video mode
+			MOV AL, 13h ;elegimos el modo gráfico 320*200
+			INT 10h     ;ejecutamos la configuración llamando interrupción 10
+		
+			MOV AH,0Bh  ;setea la cofiguracinó del color de fondo
+			MOV BH, 00h ;se elige el negro como color de fondo
+			INT 10h     ;ejecutamos la configuración
+		RET
+	CLEAR_SCREEN ENDP
+	
 CODE ENDS
 END
