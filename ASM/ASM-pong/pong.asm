@@ -28,15 +28,24 @@ CODE SEGMENT PARA 'CODE'
 		MOV BH, 00h ;se elige el negro como color de fondo
 		INT 10h     ;ejecutamos la configuración
 		
+		CALL DRAW_BALL
+		
+		
+		RET
+	MAIN ENDP
+	
+	DRAW_BALL PROC NEAR
+	
 		MOV AH, 0CH ;setea la configuración para escribir un pixel
 		MOV AL, 0Fh ;elige el blanco como color del pixel
 		MOV BH, 00h ;setea numero de página
 		MOV CX, BALL_X_POS ;setea la columna x-pos
 		MOV DX, BALL_Y_POS ;setea la linea y
 		INT 10h
-		
+
+	
 		RET
-	MAIN ENDP
+	DRAW_BALL ENDP
 
 CODE ENDS
 END
